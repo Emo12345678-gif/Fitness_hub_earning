@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+body { font-family: Arial; background:#0f172a; color:white; }
+.card { background:#1e293b; padding:15px; margin:10px; border-radius:10px; }
+button { padding:8px; margin:5px; border:none; border-radius:6px; }
+.approve { background:green; color:white; }
+.reject { background:red; color:white; }
+</style>
+</head>
+
+<body>
+
+<h2>🧑‍💼 Admin Panel</h2>
+<div id="data"></div>
+
+<script>
+
+// 🔐 PASSWORD
+let key = prompt("Enter Admin Password");
+if(key !== "Jay@Admin123"){
+  alert("Wrong ❌");
+  window.location.href="index.html";
+}
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAD6r_11py6MZwMiFmBxyCsfl9AAZqFgMU",
+  authDomain: "earning-app-56475.firebaseapp.com",
+  projectId: "earning-app-56475",
+  storageBucket: "earning-app-56475.appspot.com",
+  messagingSenderId: "924522536937",
+  appId: "1:924522536937:web:b77370626944e3c80c7578"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let adminEmail="jaysingh7278675@gmail.com";
+
+auth.onAuthStateChanged(user=>{
+if(!user || user.email!==adminEmail){
+alert("Access Denied");
+window.location.href="index.html";
+}else{
+loadData();
+}
+});
+
+function loadData(){
+db.collection("withdrawRequests")
+.orderBy("date","desc")
+.onSnapshot(snapshot=>{
+let html="";
+snapshot.forEach(doc=>{
+let d=doc.data();
+html+=`
+<div class="card">
+<p>${d.email}</p>
+<p>${d.points} pts = ₹${d.rupees}</p>
+<p>${d.upi}</p>
+<p>${d.status}</p>
+<button class="approve" onclick="updateStatus('${doc.id}','paid')">Paid</button>
+<button class="reject" onclick="updateStatus('${doc.id}','rejected')">Reject</button>
+</div>`;
+});
+data.innerHTML=html;
+});
+}
+
+function updateStatus(id,status){
+db.collection("withdrawRequests").doc(id).update({status});
+alert("Updated");
+}
+</script>
+
+</body>
+</html>

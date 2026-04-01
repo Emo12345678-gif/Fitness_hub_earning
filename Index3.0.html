@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Hub</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
+
+.card{
+background:#1e293b;
+margin:10px;
+padding:15px;
+border-radius:12px;
+}
+
+/* 🔥 SIDEBAR (UPDATED) */
+.sidebar{
+width:140px;
+position:fixed;
+height:100%;
+background:#020617;
+padding:10px;
+font-size:14px;
+}
+
+.sidebar h3{
+font-size:16px;
+margin-bottom:10px;
+}
+
+.sidebar p{
+padding:8px;
+border-radius:8px;
+cursor:pointer;
+margin:5px 0;
+}
+
+.sidebar p:hover{
+background:#1e293b;
+}
+
+/* 🔥 MAIN CONTENT */
+.main{
+margin-left:150px;
+}
+
+input,button{
+width:90%;
+padding:10px;
+margin:5px;
+border:none;
+border-radius:8px;
+}
+
+button{
+background:#22c55e;
+color:white;
+font-weight:bold;
+}
+
+img{
+width:100%;
+border-radius:10px;
+}
+
+iframe{
+width:100%;
+height:200px;
+margin-top:10px;
+}
+
+/* 📱 MOBILE */
+@media(max-width:768px){
+.sidebar{
+width:100px;
+font-size:12px;
+}
+.main{
+margin-left:110px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>🏋️ Menu</h3>
+<p onclick="go('push')">Push</p>
+<p onclick="go('pull')">Pull</p>
+<p onclick="go('legs')">Legs</p>
+<p onclick="go('diet')">Diet</p>
+<p onclick="go('tracker')">Tracker</p>
+</div>
+
+<div class="main">
+
+<h2 style="text-align:center;">🏋️ Fitness Hub</h2>
+
+<div class="card">
+<input id="search" placeholder="Search exercises..." onkeyup="search()">
+</div>
+
+<!-- PUSH -->
+<div class="card" id="push">
+<h3>🟥 Push Day</h3>
+
+<p><b>Beginner</b><br>
+Push-ups 3×10<br>Dumbbell Press 3×10<br>Fly 3×12<br>Shoulder Press 3×10<br>Lateral Raise 3×12<br>Dips 3×8<br>Extension 3×10<br>Plank</p>
+
+<p><b>Advanced</b><br>
+Bench Press 4×8<br>Incline 4×10<br>Cable Fly 3×12<br>Arnold Press 4×8<br>Lateral Raise 4×12<br>Skull Crusher 3×10<br>Pushdown 3×10<br>Diamond Pushups</p>
+
+<p><b>Home</b><br>
+Pushups 4×12<br>Decline Pushups<br>Pike Pushups<br>Chair dips<br>Plank<br>Burpees</p>
+
+<iframe src="https://www.youtube.com/embed/IODxDxX7oi4"></iframe>
+</div>
+
+<!-- PULL -->
+<div class="card" id="pull">
+<h3>🟦 Pull Day</h3>
+
+<p><b>Beginner</b><br>
+Pulldown 3×10<br>Row 3×10<br>Face pull<br>Curl<br>Hammer curl</p>
+
+<p><b>Advanced</b><br>
+Pullups 4×8<br>Barbell row 4×10<br>Tbar row<br>Face pull<br>Barbell curl<br>Preacher curl</p>
+
+<p><b>Home</b><br>
+Pullups<br>Band row<br>Backpack curl<br>Superman hold</p>
+
+<iframe src="https://www.youtube.com/embed/eGo4IYlbE5g"></iframe>
+</div>
+
+<!-- LEGS -->
+<div class="card" id="legs">
+<h3>🟩 Legs</h3>
+
+<p><b>Beginner</b><br>
+Squat 3×12<br>Leg press<br>Lunges<br>Bridge<br>Calf raise</p>
+
+<p><b>Advanced</b><br>
+Squat 4×8<br>RDL 4×10<br>Leg press<br>Split squat<br>Calf raise</p>
+
+<p><b>Home</b><br>
+Squat<br>Jump squat<br>Lunges<br>Wall sit<br>Burpees</p>
+
+<iframe src="https://www.youtube.com/embed/aclHkVaku9U"></iframe>
+</div>
+
+<!-- DIET -->
+<div class="card" id="diet">
+<h3>🍗 Diet Plans</h3>
+<img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
+
+<p><b>Weight Gain (Male):</b> Eggs, rice, chicken, milk</p>
+<p><b>Weight Gain (Female):</b> Oats, vegetables, nuts</p>
+
+<p><b>Fat Loss (Male):</b> Chicken, salad, fruits</p>
+<p><b>Fat Loss (Female):</b> Oats, soup, vegetables</p>
+</div>
+
+<!-- TRACKER -->
+<div class="card" id="tracker">
+<h3>🏋️ Exercise Tracker</h3>
+
+<input id="ex" placeholder="Exercise">
+<input id="sets" placeholder="Sets">
+<input id="reps" placeholder="Reps">
+<button onclick="add()">Add</button>
+
+<div id="list"></div>
+</div>
+
+<div class="card">
+<h3>📈 Progress Tracker</h3>
+
+<input id="weight" placeholder="Weight (kg)">
+<button onclick="save()">Save</button>
+
+<div id="progress"></div>
+</div>
+
+<!-- LOGIN -->
+<div class="card" id="login">
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="signup()">Signup</button>
+<button onclick="loginUser()">Login</button>
+</div>
+
+<!-- REWARD -->
+<div class="card" id="app" style="display:none;">
+<h3 id="user"></h3>
+<h3 id="pts"></h3>
+
+<h3 id="timer">30:00</h3>
+<button onclick="start()">Start</button>
+
+<input id="withdraw" placeholder="Min 500 points">
+<input id="upi" placeholder="UPI ID">
+<button onclick="withdrawFn()">Withdraw</button>
+</div>
+
+<!-- ABOUT -->
+<div class="card">
+<h3>About Us</h3>
+<p>I am just a normal guy helping people stay fit and motivated through simple fitness knowledge.</p>
+</div>
+
+<!-- CONTACT -->
+<div class="card">
+<h3>Contact</h3>
+<p>Email: js9330js@gmail.com</p>
+</div>
+
+<!-- FOOTER -->
+<div class="card">
+<p>Privacy Policy | Terms & Conditions</p>
+</div>
+
+</div>
+
+<script>
+const firebaseConfig={
+apiKey:"AIzaSyAD6r_11py6MZwMiFmBxyCsfl9AAZqFgMU",
+authDomain:"earning-app-56475.firebaseapp.com",
+projectId:"earning-app-56475"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+let user,points=0,timerInterval=null; // ✅ FIXED
+
+auth.onAuthStateChanged(u=>{
+if(u){
+user=u;
+login.style.display="none";
+app.style.display="block";
+load();
+}
+});
+
+function signup(){
+auth.createUserWithEmailAndPassword(email.value,pass.value)
+.then(u=>db.collection("users").doc(u.user.uid).set({points:0}))
+.catch(e=>alert(e.message)); // ✅ added error
+}
+
+function loginUser(){
+auth.signInWithEmailAndPassword(email.value,pass.value)
+.catch(e=>alert(e.message)); // ✅ FIXED
+}
+
+function load(){
+db.collection("users").doc(user.uid).get().then(d=>{
+points=d.data().points||0;
+pts.innerText="Points: "+points;
+});
+}
+
+function start(){
+if(timerInterval) return; // ✅ FIXED
+
+let t=1800;
+
+timerInterval=setInterval(()=>{
+
+let m=Math.floor(t/60);
+let s=t%60;
+
+// ✅ FIXED (correct element)
+document.getElementById("timer").innerText =
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0');
+
+t--;
+
+if(t<0){
+clearInterval(timerInterval); // ✅ FIXED
+timerInterval=null;
+
+let r=[10,20,50][Math.random()*3|0];
+points+=r;
+
+db.collection("users").doc(user.uid).update({points});
+pts.innerText="Points: "+points;
+
+alert("Earned "+r+" points");
+}
+},1000);
+}
+
+function withdrawFn(){
+let amt=parseInt(withdraw.value);
+if(amt<500) return alert("Minimum 500 points");
+if(amt>points) return alert("Not enough points");
+
+points-=amt;
+db.collection("users").doc(user.uid).update({points});
+
+db.collection("withdraw").add({
+email:user.email,
+points:amt,
+upi:upi.value
+});
+
+alert("Withdrawal request sent");
+}
+
+function add(){
+let p=document.createElement("p");
+p.innerText=ex.value+" "+sets.value+"x"+reps.value;
+list.appendChild(p);
+}
+
+function save(){
+let p=document.createElement("p");
+p.innerText="Weight "+weight.value+" kg";
+progress.appendChild(p);
+}
+
+function search(){
+let val=search.value.toLowerCase();
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=c.innerText.toLowerCase().includes(val)?"block":"none";
+});
+}
+
+function go(id){
+document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
