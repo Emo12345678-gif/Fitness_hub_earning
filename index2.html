@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Hub</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  text-align:center;
+  margin:0;
+}
+
+h2 { margin-top:20px; }
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  margin:12px;
+  border-radius:15px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+input,button {
+  width:90%;
+  padding:12px;
+  margin:6px;
+  border-radius:10px;
+  border:none;
+}
+
+input { background:#1e293b; color:white; }
+
+button {
+  background:linear-gradient(45deg,#22c55e,#16a34a);
+  color:white;
+  font-weight:bold;
+}
+
+button:hover { opacity:0.9; }
+
+.hidden { display:none; }
+
+a { color:#38bdf8; text-decoration:none; }
+</style>
+</head>
+
+<body>
+
+<h2>🏋️ Fitness Hub</h2>
+<p>Gym Routine • Diet Plans • Motivation</p>
+
+<div class="card">
+<h3>📚 Fitness Blogs</h3>
+<a href="blog.html"><button>Explore Blogs</button></a>
+</div>
+
+<div class="card">
+<h3>🔥 Daily Tip</h3>
+<p>Train hard, eat clean, stay consistent.</p>
+</div>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
+
+.card{
+background:#1e293b;
+margin:10px;
+padding:15px;
+border-radius:12px;
+}
+
+/* 🔥 SIDEBAR (UPDATED) */
+.sidebar{
+width:140px;
+position:fixed;
+height:100%;
+background:#020617;
+padding:10px;
+font-size:14px;
+}
+
+.sidebar h3{
+font-size:16px;
+margin-bottom:10px;
+}
+
+.sidebar p{
+padding:8px;
+border-radius:8px;
+cursor:pointer;
+margin:5px 0;
+}
+
+.sidebar p:hover{
+background:#1e293b;
+}
+
+/* 🔥 MAIN CONTENT */
+.main{
+margin-left:150px;
+}
+
+input,button{
+width:90%;
+padding:10px;
+margin:5px;
+border:none;
+border-radius:8px;
+}
+
+button{
+background:#22c55e;
+color:white;
+font-weight:bold;
+}
+
+img{
+width:100%;
+border-radius:10px;
+}
+
+iframe{
+width:100%;
+height:200px;
+margin-top:10px;
+}
+
+/* 📱 MOBILE */
+@media(max-width:768px){
+.sidebar{
+width:100px;
+font-size:12px;
+}
+.main{
+margin-left:110px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>🏋️ Menu</h3>
+<p onclick="go('push')">Push</p>
+<p onclick="go('pull')">Pull</p>
+<p onclick="go('legs')">Legs</p>
+<p onclick="go('diet')">Diet</p>
+<p onclick="go('tracker')">Tracker</p>
+</div>
+
+<div class="main">
+
+<h2 style="text-align:center;">🏋️ Fitness Hub</h2>
+
+<div class="card">
+<input id="search" placeholder="Search exercises..." onkeyup="search()">
+</div>
+
+<!-- PUSH -->
+<div class="card" id="push">
+<h3>🟥 Push Day</h3>
+
+<p><b>Beginner</b><br>
+Push-ups 3×10<br>Dumbbell Press 3×10<br>Fly 3×12<br>Shoulder Press 3×10<br>Lateral Raise 3×12<br>Dips 3×8<br>Extension 3×10<br>Plank</p>
+
+<p><b>Advanced</b><br>
+Bench Press 4×8<br>Incline 4×10<br>Cable Fly 3×12<br>Arnold Press 4×8<br>Lateral Raise 4×12<br>Skull Crusher 3×10<br>Pushdown 3×10<br>Diamond Pushups</p>
+
+<p><b>Home</b><br>
+Pushups 4×12<br>Decline Pushups<br>Pike Pushups<br>Chair dips<br>Plank<br>Burpees</p>
+
+<iframe src="https://www.youtube.com/embed/IODxDxX7oi4"></iframe>
+</div>
+
+<!-- PULL -->
+<div class="card" id="pull">
+<h3>🟦 Pull Day</h3>
+
+<p><b>Beginner</b><br>
+Pulldown 3×10<br>Row 3×10<br>Face pull<br>Curl<br>Hammer curl</p>
+
+<p><b>Advanced</b><br>
+Pullups 4×8<br>Barbell row 4×10<br>Tbar row<br>Face pull<br>Barbell curl<br>Preacher curl</p>
+
+<p><b>Home</b><br>
+Pullups<br>Band row<br>Backpack curl<br>Superman hold</p>
+
+<iframe src="https://www.youtube.com/embed/eGo4IYlbE5g"></iframe>
+</div>
+
+<!-- LEGS -->
+<div class="card" id="legs">
+<h3>🟩 Legs</h3>
+
+<p><b>Beginner</b><br>
+Squat 3×12<br>Leg press<br>Lunges<br>Bridge<br>Calf raise</p>
+
+<p><b>Advanced</b><br>
+Squat 4×8<br>RDL 4×10<br>Leg press<br>Split squat<br>Calf raise</p>
+
+<p><b>Home</b><br>
+Squat<br>Jump squat<br>Lunges<br>Wall sit<br>Burpees</p>
+
+<iframe src="https://www.youtube.com/embed/aclHkVaku9U"></iframe>
+</div>
+
+<!-- DIET -->
+<div class="card" id="diet">
+<h3>🍗 Diet Plans</h3>
+<img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
+
+<p><b>Weight Gain (Male):</b> Eggs, rice, chicken, milk</p>
+<p><b>Weight Gain (Female):</b> Oats, vegetables, nuts</p>
+
+<p><b>Fat Loss (Male):</b> Chicken, salad, fruits</p>
+<p><b>Fat Loss (Female):</b> Oats, soup, vegetables</p>
+</div>
+
+<!-- TRACKER -->
+<div class="card" id="tracker">
+<h3>🏋️ Exercise Tracker</h3>
+
+<input id="ex" placeholder="Exercise">
+<input id="sets" placeholder="Sets">
+<input id="reps" placeholder="Reps">
+<button onclick="add()">Add</button>
+
+<div id="list"></div>
+</div>
+
+<div class="card">
+<h3>📈 Progress Tracker</h3>
+
+<input id="weight" placeholder="Weight (kg)">
+<button onclick="save()">Save</button>
+
+<div id="progress"></div>
+</div>
+<div id="loginDiv" class="card">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
+</div>
+
+<div id="appDiv" class="hidden">
+
+<div class="card">
+<h3 id="userEmail"></h3>
+<h3 id="pointsDisplay"></h3>
+<h3 id="moneyDisplay"></h3>
+</div>
+
+<div class="card">
+<h3>🎁 Rewards</h3>
+<h2 id="timerText">00:30:00</h2>
+<button onclick="startTimer()">Start Timer</button>
+</div>
+
+<div class="card">
+<h3>Withdraw</h3>
+<input id="withdrawAmount" placeholder="Min 500 points">
+<input id="upi" placeholder="UPI ID">
+<button onclick="withdraw()">Withdraw</button>
+</div>
+
+<div class="card">
+<h3>History</h3>
+<div id="history"></div>
+</div>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+<div class="card">
+<h3>About Us</h3>
+<p>I am just a normal guy helping people stay fit and motivated.</p>
+</div>
+
+<div class="card">
+<h3>Contact</h3>
+<p>Email: js9330js@gmail.com</p>
+</div>
+
+<div class="card">
+<a href="privacy.html">Privacy Policy</a> |
+<a href="terms.html">Terms</a>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAD6r_11py6MZwMiFmBxyCsfl9AAZqFgMU",
+  authDomain: "earning-app-56475.firebaseapp.com",
+  projectId: "earning-app-56475",
+  storageBucket: "earning-app-56475.appspot.com",
+  messagingSenderId: "924522536937",
+  appId: "1:924522536937:web:b77370626944e3c80c7578"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUser, points=0, timer=null;
+
+auth.onAuthStateChanged(user=>{
+if(user){
+currentUser=user;
+loginDiv.style.display="none";
+appDiv.style.display="block";
+userEmail.innerText=user.email;
+loadData();
+loadHistory();
+}
+});
+
+function signup(){
+auth.createUserWithEmailAndPassword(email.value,password.value)
+.then(u=>db.collection("users").doc(u.user.uid).set({points:0}));
+}
+
+function login(){
+auth.signInWithEmailAndPassword(email.value,password.value);
+}
+
+function loadData(){
+db.collection("users").doc(currentUser.uid).get()
+.then(doc=>{
+points=doc.data().points||0;
+updateUI();
+});
+}
+
+function startTimer(){
+if(timer) return;
+let time=1800;
+
+timer=setInterval(()=>{
+let m=Math.floor(time/60);
+let s=time%60;
+
+timerText.innerText="00:"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+
+time--;
+
+if(time<0){
+clearInterval(timer);
+timer=null;
+
+let reward=[10,20,50][Math.random()*3|0];
+points+=reward;
+
+db.collection("users").doc(currentUser.uid).update({points});
+
+alert("🎉 Earned "+reward+" points");
+updateUI();
+timerText.innerText="00:30:00";
+}
+
+},1000);
+}
+
+function withdraw(){
+let amt=parseInt(withdrawAmount.value);
+let upiId=upi.value;
+
+if(amt<500) return alert("Minimum 500 points");
+if(amt>points) return alert("Not enough");
+if(!upiId) return alert("Enter UPI");
+
+points-=amt;
+
+db.collection("users").doc(currentUser.uid).update({points});
+
+db.collection("withdrawRequests").add({
+email:currentUser.email,
+points:amt,
+rupees:amt/100,
+upi:upiId,
+status:"pending",
+date:new Date()
+});
+
+alert("Request sent");
+updateUI();
+}
+
+function loadHistory(){
+db.collection("withdrawRequests")
+.where("email","==",currentUser.email)
+.onSnapshot(snap=>{
+let html="";
+snap.forEach(d=>{
+let x=d.data();
+html+=`<p>${x.points} pts - ${x.status}</p>`;
+});
+history.innerHTML=html;
+});
+}
+
+function updateUI(){
+pointsDisplay.innerText="Points: "+points;
+moneyDisplay.innerText="₹ "+(points/100);
+}
+
+function logout(){ auth.signOut(); }
+</script>
+
+</body>
+</html>
